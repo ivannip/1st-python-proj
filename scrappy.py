@@ -8,6 +8,10 @@ storylinks = bs.select('.storylink')
 subtexts = bs.select('.subtext')
 
 
+def sort_links(lis):
+    return sorted(lis, key=lambda x: x['vote'], reverse=True)
+
+
 def format_links(links, texts):
     hn = []
     for idx, item in enumerate(links):
@@ -15,8 +19,14 @@ def format_links(links, texts):
             vote = texts[idx].select('.score')[0].getText().replace(' points', '')
             if int(vote) >= 100:
                 hn.append({'text': item.getText(), 'link': item.get('href', None), 'vote': int(vote)})
-    return hn
+    return sort_links(hn)
 
 
-print(format_links(storylinks, subtexts))
+for dic in format_links(storylinks, subtexts):
+    print(dic['text'])
+    print(dic['link'])
+    print(dic['vote'])
+
+
+
 
